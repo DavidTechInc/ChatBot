@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Poppins:wght@400;600&display=swap');
+
+:root {
+  --bg-dark: #0d0d0d;
+  --glass: rgba(255, 255, 255, 0.06);
+  --border: rgba(255, 255, 255, 0.1);
+  --glow-blue: #00f7ff;
+  --glow-purple: #b100ff;
+  --text-light: #eaeaea;
+  --font-main: 'Poppins', sans-serif;
+  --font-tech: 'Orbitron', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-dark);
+  color: var(--text-light);
+  font-family: var(--font-main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#chat-container {
+  width: 95%;
+  max-width: 600px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 0 20px var(--glow-blue), 0 0 40px var(--glow-purple);
+  display: flex;
+  flex-direction: column;
+}
+
+#chat-box {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 400px;
+  margin-bottom: 10px;
+  padding-right: 5px;
+  scrollbar-width: thin;
+}
+
+.bubble {
+  padding: 12px 18px;
+  margin: 8px 0;
+  border-radius: 14px;
+  max-width: 90%;
+  line-height: 1.5;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.user {
+  background: linear-gradient(135deg, #00f7ff33, #00f7ff11);
+  border: 1px solid #00f7ff66;
+  align-self: flex-end;
+  text-align: right;
+}
+
+.bot {
+  background: linear-gradient(135deg, #b100ff33, #b100ff11);
+  border: 1px solid #b100ff66;
+  align-self: flex-start;
+  text-align: left;
+  font-family: var(--font-tech);
+}
+
+#typing {
+  font-style: italic;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+#user-input {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #111;
+  color: #fff;
+  width: 100%;
+  margin-bottom: 10px;
+  outline: none;
+  font-size: 16px;
+}
+
+#send-btn {
+  padding: 12px;
+  border: none;
+  background: var(--glow-purple);
+  color: #fff;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  font-family: var(--font-tech);
+  text-transform: uppercase;
+}
+
+#send-btn:hover {
+  background: var(--glow-blue);
+  box-shadow: 0 0 10px var(--glow-blue);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  #chat-container {
+    padding: 15px;
+  }
+
+  .bubble {
+    font-size: 14px;
+  }
+
+  #send-btn, #user-input {
+    font-size: 15px;
+  }
+}
