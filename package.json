@@ -1,0 +1,12 @@
+{
+  "name": "crazy-ai-chatbot",
+  "version": "1.0.0",
+  "main": "api/chat.js",
+  "scripts": {
+    "dev": "crazy dev",
+    "start": "vercel start"
+  },
+  "dependencies": {
+    "openai": "^4.0.0"
+  }
+}
