@@ -1,30 +1,45 @@
-const chatBox = document.getElementById('chat-box');
-const userInput = document.getElementById('user-input');
-const sendBtn = document.getElementById('send-btn');
-const typing = document.getElementById('typing');
+// Fonction d'envoi du message
+async function sendMessage() {
+  const input = document.getElementById("message-input");
+  const message = input.value.trim();
 
-sendBtn.onclick = async () => {
-  const message = userInput.value.trim();
-  if (!message) return;
+  if (message === "") return;  // Ne rien envoyer si le champ est vide
 
-  appendMessage('user', message);
-  userInput.value = '';
-  typing.style.display = 'block';
+  displayMessage("user", message);  // Afficher le message de l'utilisateur
+  input.value = "";  // Vider le champ de saisie
 
-  const res = await fetch('/api/chat', {
+  // Ajouter la réponse du bot
+  displayMessage("bot", "Typing...");
+
+  const response = await fetch('./api/chat', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message })
+    body: JSON.stringify({ message: message })
   });
-  const data = await res.json();
-  typing.style.display = 'none';
-  appendMessage('bot', data.reply);
-};
 
-function appendMessage(role, text) {
-  const div = document.createElement('div');
-  div.className = `bubble ${role}`;
-  div.textContent = text;
-  chatBox.appendChild(div);
-  chatBox.scrollTop = chatBox.scrollHeight;
+  const data = await response.json();
+  const botReply = data.reply || "Sorry, I didn't understand that.";
+
+  // Remplacer "Typing..." par la vraie réponse du bot
+  const messages = document.getElementById("chat-box");
+  const lastMessage = messages.lastElementChild;
+  if (lastMessage && lastMessage.classList.contains("bot")) {
+    lastMessage.querySelector(".message-text").textContent = botReply;
+  } else {
+    displayMessage("bot", botReply);
+  }
+}
+
+// Fonction d'affichage d'un message dans le chat
+function displayMessage(sender, content) {
+  const chatBox = document.getElementById("chat-box");
+  const messageElement = document.createElement("div");
+  messageElement.classList.add("message", sender);
+
+  const textElement = document.createElement("div");
+  textElement.classList.add("message-text");
+  textElement.textContent = content;
+
+  messageElement.appendChild(textElement);
+  chatBox.appendChild(messageElement);
+  chatBox.scrollTop = chatBox.scrollHeight;  // Scroller vers le bas
 }
